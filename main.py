@@ -13,13 +13,8 @@ player_img = pygame.image.load('img_data/iosu_up.png')
 player_rect = player_img.get_rect()
 player  = Player(player_img)
 speed = 15
-level = 1
-a_shot = False
 bala = pygame.rect.Rect((0,0), (5,5))
-
-
 clock = pygame.time.Clock()
-
 numzomb = 10
 zombie_img = pygame.image.load('img_data/zombie.png')
 zombie_rect = zombie_img.get_rect()
@@ -58,6 +53,7 @@ def handle(what, level, numzomb):
 		screen.blit(render, (150,170))
 
 def main():
+
 	walk = False
 	a_shot = False
 	numzomb = 10 
@@ -66,31 +62,25 @@ def main():
 	pygame.mixer.init()
 	level = 1
 	bala = pygame.rect.Rect((0,0), (5,5))
-	zsound = pygame.mixer.Sound("zombies.wav")
+	zsound = pygame.mixer.Sound("sound_data/zombies.wav")
+	
 	while not end:
 		vx,vy = 0,0
 
 		for event in pygame.event.get():
 			
-			if event.type == pygame.QUIT:
-				sys.exit(0)
+			if event.type == pygame.QUIT:sys.exit(0)
+
 			keys = pygame.key.get_pressed()
-			if keys[K_ESCAPE]:
-				sys.exit(0)
-			if keys[K_w]:
-				vy = -speed
-				walk = "top"
-			if keys[K_s]:
-				vy = speed
-				walk = "down"
-			if keys[K_a]:
-				vx = -speed
-				walk = "left"
-			if keys[K_d]:
-				vx = speed
-				walk = "right"
+
+			if keys[K_ESCAPE]:sys.exit(0)
+			if keys[K_w]:vy = -speed
+			if keys[K_s]:vy = speed
+			if keys[K_a]:vx = -speed
+			if keys[K_d]:vx = speed
+
 			if keys[K_SPACE]:
-				pygame.mixer.music.load("shot.wav")
+				pygame.mixer.music.load("sound_data/shot.wav")
 				pygame.mixer.music.play()
 				pos = player.pos()
 				a_shot = True
@@ -122,28 +112,22 @@ def main():
 				add_zombies(cantzomb,zombie_img, numzomb)
 				cont_zomb = numzomb
 			cantzomb[i].move_ip(0, vel[i])
-		if numzomb > 0:	
-			zsound.play()
+		
+		if numzomb > 0:	zsound.play()
 
    		if a_shot:
-			#if keys[K_d]:
-			#	bala.right += 10
-			#if walk == "left":
-			#	bala.left -= 10
-			#if walk == "top":
-				bala.top -= 10
-				pygame.draw.rect(screen, (255,255,255), bala)
-			#if walk == "down":
-			#	bala.top += 10
+			bala.top -= 15
+			pygame.draw.rect(screen, (255,255,255), bala)
+		
 
 		kills = numzomb - cont_zomb
 		fps = str(clock.get_time())
 		time = fps.split(".")[0]
-		needed = numzomb
-		player.hud(screen,kills,level,time,needed)
+		player.hud(screen,kills,level,time,numzomb)
 		player.update(screen,walk)
 		pygame.display.flip()
 		clock.tick(70)
 		pos = player.pos()
+
 	sys.exit()
 main()
