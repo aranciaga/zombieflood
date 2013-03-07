@@ -20,14 +20,14 @@ class Player(pygame.sprite.Sprite):
 		self.rect.move_ip(vx,vy)
 	
 	def update(self,surface,walk):
-		#if walk == "left":
-		#	self.image = pygame.image.load('img_data/iosu_left.png')
-		#if walk == "right":
-		#	self.image = pygame.image.load('img_data/iosu_right.png')
-		#if walk == "top":
-		#	self.image = pygame.image.load('img_data/iosu_up.png')
-		#if walk == "down":
-		#	self.image = pygame.image.load('img_data/iosu_down.png')
+	#	if walk == "left":
+	#		self.image = pygame.image.load('img_data/iosu_left.png')
+	#	if walk == "right":
+	#		self.image = pygame.image.load('img_data/iosu_right.png')
+	#	if walk == "top":
+		self.image = pygame.image.load('img_data/iosu_up.png')
+	#	if walk == "down":
+	#		self.image = pygame.image.load('img_data/iosu_down.png')
 		surface.blit(self.image,self.rect)
 	
 	def col(self,obj):
@@ -48,5 +48,4 @@ class Player(pygame.sprite.Sprite):
 		time = font.render("FPS: "+str(time), 1, (255,255,255))
 		screen.blit(kills, (0,0))
 		screen.blit(level, (80,0))
-		screen.blit(time, (140,0))
-		
+		screen.blit(time, (140,0))	
